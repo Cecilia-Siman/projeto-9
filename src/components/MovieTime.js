@@ -8,17 +8,21 @@ import TopBar from "./TopBar";
 
 export default function MovieTime() {
 
-    const param = useParams();
+    const paramNotTreated = useParams();
+    let param = paramNotTreated.idmovie;
+    param = param.replace("movie","");
+    param = param.toString(param);
+    
     const [movieTime,setMovieTime] = React.useState([]);
-    const [sessions,setSessions] = React.useState([]);
+    const [movieInfo,setMovieInfo] = React.useState({});
 
-    console.log(param.idmovie);
     React.useEffect(() => {
-        const requisicao = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${param.idmovie}/showtimes`);
+        const requisicao = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/movies/${param}/showtimes`);
 
         requisicao.then(response => {
             setMovieTime([...response.data.days])
-            console.log(response.data.days)
+            setMovieInfo({...response.data})
+            console.log(response.data)
         });
     }, []);
 
@@ -27,7 +31,7 @@ export default function MovieTime() {
         function renderTime(props){
             return(
                 <>
-                    <Link to={`/${props.id}`} >
+                    <Link style={{textDecoration: 'none'}}  to={`/session${props.id}`} >
                         <div className="buttonTime">{props.name}</div>
                     </Link>
                 </>
@@ -68,14 +72,21 @@ export default function MovieTime() {
                     <Link to="/">Teste</Link>
                 </button> 
             </Container>
+            <BottomBar>
+                <img src={movieInfo.posterURL} alt="poster"></img>
+                <p>{movieInfo.title}</p>
+            </BottomBar>
         </>
     );
 }
+//<img src={movieInfo.posterURL} alt="poster"></img>
+            
 
 const Container = styled.div `
   display:flex;
   justify-content:center; 
   flex-direction: column;
+  margin-bottom: 128px;
 
   h3{
     color:#293845;
@@ -84,6 +95,7 @@ const Container = styled.div `
     font-size: 24px;
     align-items: center;
     text-align: center;
+    margin: 42px 0px;
   }
   .dates{
     display:flex;
@@ -117,6 +129,7 @@ const Container = styled.div `
 const TimeAvaliable = styled.div `
 display:flex;
 flex-direction: row;
+margin:30px 0px;
 
 .buttonTime{
     width:84px;
@@ -129,5 +142,40 @@ flex-direction: row;
     justify-content:center;
     align-items:center;
     margin-right:8px;
+    &:hover{
+        cursor:pointer;
+    }
   }
+`
+
+const BottomBar = styled.div `
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  height:118px;
+  width:100%;
+  position:fixed;
+  bottom:0;
+  left:0;
+  background-color:#ffffff;
+  //border-top: solid 1px #000000;
+  box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.5);
+  img{
+    width:48px;
+    height:72px;
+    border: 8px solid white;
+    border-radius:3px;
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
+    margin-left:10px;
+    margin-right:16px;
+  }
+  p{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 26px;
+    color: #293845;
+    
+    
+  }
+  
 `

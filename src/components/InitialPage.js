@@ -18,7 +18,7 @@ export default function InitialPage() {
 function renderImg(props){
   return (
     <div key={props.id}>
-      <Link to={`/${props.id}`}>
+      <Link to={`/movie${props.id}`}>
         <img src={props.posterURL} alt={props.title}></img>
       </Link>
     </div>  )
@@ -37,9 +37,6 @@ function ListImgs() {
         <div>
           <ListImgs />
         </div>
-        <button>
-          <Link to="/movietime">Teste</Link>
-        </button>  
       </Container>
     </>
   );
@@ -58,6 +55,7 @@ const Container = styled.div `
     font-size: 24px;
     align-items: center;
     text-align: center;
+    margin: 42px 0px;
   }
   div{
     display:flex;
@@ -70,6 +68,8 @@ const Container = styled.div `
     border-radius:3px;
     box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.1);
     margin-bottom:12px;
+    //margin-left:10px;
+    //margin-right:10px;
     &:hover{
       cursor:pointer;
     }
