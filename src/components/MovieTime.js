@@ -10,7 +10,7 @@ export default function MovieTime() {
 
     const paramNotTreated = useParams();
     let param = paramNotTreated.idmovie;
-    param = param.replace("movie","");
+    param = param.replace("movie/","");
     param = param.toString(param);
     
     const [movieTime,setMovieTime] = React.useState([]);
@@ -68,9 +68,6 @@ export default function MovieTime() {
             <Container>
                 <h3>Selecione o horário</h3>  
                 <ListSessions/>              
-                <button className="teste">
-                    <Link to="/">Teste</Link>
-                </button> 
             </Container>
             <BottomBar>
                 <img src={movieInfo.posterURL} alt="poster"></img>
@@ -174,8 +171,6 @@ const BottomBar = styled.div `
     font-weight: 400;
     font-size: 26px;
     color: #293845;
-    
-    
   }
   
 `

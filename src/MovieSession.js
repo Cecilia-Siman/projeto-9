@@ -81,7 +81,7 @@ export default function MovieSession() {
         console.log(obj);
         
         const requisicao = axios.post('https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many',obj);
-        requisicao.then(alert("Mensagem enviada com sucesso!"));    
+        requisicao.then(alert("requisição enviada"));    
         
         setName("");
         setCpf("");
@@ -91,59 +91,59 @@ export default function MovieSession() {
 
     return(
         <>
-            <TopBar />
-            <Container>
-                <h3>Selecione o(s) assento(s)</h3>  
-                <Seats>
-                    <div>
-                        <ListSeats/>
-                    </div>
-                </Seats>
-                <div className="legend">
-                    <div className="typeSeat">
-                        <div style={{background: '#8DD7CF',border: '1px solid #1AAE9E'}}></div>
-                        <p>Selecionado</p>
-                    </div>
-                    <div className="typeSeat">
-                        <div style={{background: '#C3CFD9',border: '1px solid #7B8B99'}}></div>
-                        <p>Disponível</p>
-                    </div>
-                    <div className="typeSeat">
-                        <div style={{background: '#FBE192',border: '1px solid #F7C52B'}}></div>
-                        <p>Indisponível</p>
-                    </div>
+        <TopBar />
+        <Container>
+            <h3>Selecione o(s) assento(s)</h3>  
+            <Seats>
+                <div>
+                    <ListSeats/>
                 </div>
-            </Container>
-
-            <FormStyle>
-                <form onSubmit={submitData}>
-                    <p htmlFor="name">Nome do comprador:</p>
-                    <input 
-                    type="name" 
-                    id="name" 
-                    value={name}
-                    required
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Digite seu nome..."
-                    />
-                    <p>CPF do comprador:</p>
-                    <input 
-                    type="name" 
-                    value={cpf}
-                    required
-                    onChange={(e) => setCpf(e.target.value)}
-                    placeholder="Digite seu CPF..."
-                    />
-                    <button type="submit" >Reservar assento(s)</button>
-                </form>
-            </FormStyle>
-            <BottomBar>
-            <img src={movieInfo.posterURL} alt="poster"></img>
-            <div>
-                <p>{movieInfo.title}</p>
-                <p>{movieDay.weekday} - {sessionInfo.name}</p>
+            </Seats>
+            <div className="legend">
+                <div className="typeSeat">
+                    <div style={{background: '#8DD7CF',border: '1px solid #1AAE9E'}}></div>
+                    <p>Selecionado</p>
+                </div>
+                <div className="typeSeat">
+                    <div style={{background: '#C3CFD9',border: '1px solid #7B8B99'}}></div>
+                    <p>Disponível</p>
+                </div>
+                <div className="typeSeat">
+                    <div style={{background: '#FBE192',border: '1px solid #F7C52B'}}></div>
+                    <p>Indisponível</p>
+                </div>
             </div>
-            </BottomBar>
+        </Container>
+
+        <FormStyle>
+            <form onSubmit={submitData}>
+                <p htmlFor="name">Nome do comprador:</p>
+                <input 
+                type="name" 
+                id="name" 
+                value={name}
+                required
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Digite seu nome..."
+                />
+                <p>CPF do comprador:</p>
+                <input 
+                type="name" 
+                value={cpf}
+                required
+                onChange={(e) => setCpf(e.target.value)}
+                placeholder="Digite seu CPF..."
+                />
+                <button type="submit" >Reservar assento(s)</button>
+            </form>
+        </FormStyle>
+        <BottomBar>
+        <img src={movieInfo.posterURL} alt="poster"></img>
+        <div>
+            <p>{movieInfo.title}</p>
+            <p>{movieDay.weekday} - {sessionInfo.name}</p>
+        </div>
+        </BottomBar>
         </>
     );
 
