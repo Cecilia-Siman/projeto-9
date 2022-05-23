@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import InitialPage from "./components/InitialPage";
 import MovieTime from "./components/MovieTime";
 import MovieSession from "./MovieSession";
-import "./reset.css";
 
 
 export default function App() {

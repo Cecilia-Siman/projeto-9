@@ -11,16 +11,14 @@ export default function MovieSession() {
     const paramNotTreated = useParams();
     
     let parameter = paramNotTreated.idsession;
-    parameter = parameter.replace("session","");
+    parameter = parameter.replace("session/","");
     //console.log(parameter);
     
     const [sessionInfo,setSessionInfo] = React.useState({});
     const [movieInfo,setMovieInfo] = React.useState({});
     const [movieDay,setMovieDay] = React.useState({});
     const [seatsInfo,setSeatsInfo] = React.useState([]);
-
-    const [listseats, setListSeats] = React.useState([]);
-    console.log("seats",listseats);
+    let listseats = [];
 
     React.useEffect(() => {
         const requisicao = axios.get(`https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${parameter}/seats`);
@@ -38,22 +36,26 @@ export default function MovieSession() {
     
 
     function RenderSeats(props){
-        const [chosen,setChosen] = React.useState("avaliable");
-        //console.log(chosen);
-        function colorchange(){
-            setChosen("selected");
-            console.log(chosen);
-        }
+        const [chosen,setChosen] = React.useState(false);
         function clicked(number){
+            function removevalue(value){
+                return value !== number;    
+            }
+            if (!chosen){
+                listseats.push(number);
+            } else{
+                listseats = listseats.filter(removevalue);
+            }
+            setChosen(!chosen);
 
-            setListSeats([...listseats,number]);
+            console.log(listseats);
             
         }
         return (
             <>
                 {props.isAvailable ? 
-                    <div className={chosen} onClick={()=>{colorchange();clicked(props.name)}} key={props.id}>{props.name}</div> :
-                    <div className="button notavaliable" key={props.id}>{props.name}</div>
+                    <div className={chosen ? "selected":"avaliable"} onClick={()=>{clicked(props.id)}} key={props.id}><p>{props.name}</p></div> :
+                    <div className="button notavaliable" onClick={()=>alert("Esse assento não está disponível")} key={props.id}>{props.name}</div>
                 }
             </>
         )
@@ -70,12 +72,20 @@ export default function MovieSession() {
     const [cpf, setCpf] = React.useState("");
 
     function submitData(event) {
-        // modifique esta função para que a página não seja recarregada
         event.preventDefault();
-    
-        alert("Mensagem enviada com sucesso!");
+        const obj = {
+            name:name,
+            cpf:cpf,
+            ids:[...listseats],
+        };
+        console.log(obj);
+        
+        const requisicao = axios.post('https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many',obj);
+        requisicao.then(alert("Mensagem enviada com sucesso!"));    
+        
         setName("");
         setCpf("");
+
     }
 
 
@@ -190,19 +200,29 @@ div{
 }
 
     .button{
+        font-style: normal;
+        font-weight: 400;
+        font-size: 11px;
+        color: #000000;
+
         width: 26px;
         height: 26px;
         display:flex;
         align-items:center;
         justify-content:center;
-        border: 1px solid #808F9D;
-        border-radius: 12px;
+        border-radius: 50%;
         margin: 10px 4px;
+        box-size:border-box;
         &:hover{
             cursor:pointer;
         }
     }
     .avaliable{
+        font-style: normal;
+        font-weight: 400;
+        font-size: 11px;
+        color: #000000;
+
         background: #C3CFD9;
         border: 1px solid #7B8B99;
         width: 26px;
@@ -211,13 +231,18 @@ div{
         align-items:center;
         justify-content:center;
         border: 1px solid #808F9D;
-        border-radius: 12px;
+        border-radius:50%;
         margin: 10px 4px;
         &:hover{
             cursor:pointer;
         }
     }
     .selected{
+        font-style: normal;
+        font-weight: 400;
+        font-size: 11px;
+        color: #000000;
+
         background: #8DD7CF;
         border: 1px solid #1AAE9E;
         width: 26px;
@@ -225,8 +250,7 @@ div{
         display:flex;
         align-items:center;
         justify-content:center;
-        border: 1px solid #808F9D;
-        border-radius: 12px;
+        border-radius: 50%;
         margin: 10px 4px;
         &:hover{
             cursor:pointer;
@@ -262,6 +286,11 @@ input{
 }
 p{
     margin: 0px 25px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    color: #293845;
 }
 
 button {
